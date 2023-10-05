@@ -59,7 +59,7 @@ class __MyMaterialAppState extends State<_MyMaterialApp> {
     _configureInterceptors();
     super.initState();
   }
-
+// Test comment
   Future<void> _configureFCM() async {
     /// Initialize the FCM callbacks
     if (kIsWeb) {
