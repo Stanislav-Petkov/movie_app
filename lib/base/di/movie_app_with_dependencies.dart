@@ -20,6 +20,8 @@ import '../common_mappers/error_mappers/error_mapper.dart';
 import '../data_sources/local/shared_preferences_instance.dart';
 import '../data_sources/remote/http_clients/api_http_client.dart';
 import '../data_sources/remote/http_clients/plain_http_client.dart';
+import '../data_sources/remote/movie_data_source.dart';
+import '../repositories/movie_repository.dart';
 
 class MovieAppWithDependencies extends StatefulWidget {
   const MovieAppWithDependencies({
@@ -108,14 +110,19 @@ class _MovieAppWithDependenciesState extends State<MovieAppWithDependencies> {
       ];
 
   List<Provider> get _dataSources => [
-        // Provider<PermissionsRemoteDataSource>(
-        //   create: (context) => PermissionsRemoteDataSource(
-        //     context.read<ApiHttpClient>(),
-        //   ),
-        // ),
+        Provider<MovieDataSource>(
+          create: (context) => MovieDataSource(
+            context.read<ApiHttpClient>(),
+          ),
+        ),
       ];
 
   List<Provider> get _repositories => [
+    Provider<MovieRepository>(
+      create: (context) => MovieRepository(
+        context.read<MovieDataSource>(),
+      ),
+    ),
       ];
 
   List<Provider> get _services => [
