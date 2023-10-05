@@ -7,54 +7,21 @@ part of 'router.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
-      $splashRoute,
-      $homeStatefulShellRoute,
+      $movieStatefulShellRoute,
     ];
 
-RouteBase get $splashRoute => GoRouteData.$route(
-      path: '/splash',
-      factory: $SplashRouteExtension._fromState,
-    );
-
-extension $SplashRouteExtension on SplashRoute {
-  static SplashRoute _fromState(GoRouterState state) => const SplashRoute();
-
-  String get location => GoRouteData.$location(
-        '/splash',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-RouteBase get $homeStatefulShellRoute => StatefulShellRouteData.$route(
-      navigatorContainerBuilder:
-          HomeStatefulShellRoute.$navigatorContainerBuilder,
-      factory: $HomeStatefulShellRouteExtension._fromState,
+RouteBase get $movieStatefulShellRoute => StatefulShellRouteData.$route(
+      factory: $MovieStatefulShellRouteExtension._fromState,
       branches: [
         StatefulShellBranchData.$branch(
           routes: [
             GoRouteData.$route(
-              path: '/dashboard',
-              factory: $DashboardRouteExtension._fromState,
-            ),
-          ],
-        ),
-        StatefulShellBranchData.$branch(
-          routes: [
-            GoRouteData.$route(
-              path: '/profile',
-              factory: $ProfileRouteExtension._fromState,
+              path: '/movie',
+              factory: $MovieRouteExtension._fromState,
               routes: [
                 GoRouteData.$route(
-                  path: 'notifications',
-                  factory: $NotificationsRouteExtension._fromState,
+                  path: 'movieWithDetails',
+                  factory: $MovieWithDetailsRouteExtension._fromState,
                 ),
               ],
             ),
@@ -63,17 +30,16 @@ RouteBase get $homeStatefulShellRoute => StatefulShellRouteData.$route(
       ],
     );
 
-extension $HomeStatefulShellRouteExtension on HomeStatefulShellRoute {
-  static HomeStatefulShellRoute _fromState(GoRouterState state) =>
-      const HomeStatefulShellRoute();
+extension $MovieStatefulShellRouteExtension on MovieStatefulShellRoute {
+  static MovieStatefulShellRoute _fromState(GoRouterState state) =>
+      const MovieStatefulShellRoute();
 }
 
-extension $DashboardRouteExtension on DashboardRoute {
-  static DashboardRoute _fromState(GoRouterState state) =>
-      const DashboardRoute();
+extension $MovieRouteExtension on MovieRoute {
+  static MovieRoute _fromState(GoRouterState state) => const MovieRoute();
 
   String get location => GoRouteData.$location(
-        '/dashboard',
+        '/movie',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -86,29 +52,12 @@ extension $DashboardRouteExtension on DashboardRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ProfileRouteExtension on ProfileRoute {
-  static ProfileRoute _fromState(GoRouterState state) => const ProfileRoute();
+extension $MovieWithDetailsRouteExtension on MovieWithDetailsRoute {
+  static MovieWithDetailsRoute _fromState(GoRouterState state) =>
+      const MovieWithDetailsRoute();
 
   String get location => GoRouteData.$location(
-        '/profile',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-extension $NotificationsRouteExtension on NotificationsRoute {
-  static NotificationsRoute _fromState(GoRouterState state) =>
-      const NotificationsRoute();
-
-  String get location => GoRouteData.$location(
-        '/profile/notifications',
+        '/movie/movieWithDetails',
       );
 
   void go(BuildContext context) => context.go(location);

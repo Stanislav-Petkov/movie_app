@@ -11,7 +11,6 @@ import 'package:rxdart/rxdart.dart';
 import '../../app_extensions.dart';
 import '../../base/extensions/error_model_extensions.dart';
 import '../../base/models/errors/error_model.dart';
-import '../../lib_permissions/services/permissions_service.dart';
 import '../models/route_data_model.dart';
 
 part 'router_bloc.rxb.g.dart';
@@ -66,14 +65,11 @@ abstract class RouterBlocStates {
 class RouterBloc extends $RouterBloc {
   RouterBloc({
     required GoRouter router,
-    required PermissionsService permissionsService,
-  })  : _router = router,
-        _permissionsService = permissionsService {
+  }) : _router = router {
     errors.connect().addTo(_compositeSubscription);
     navigationPath.connect().addTo(_compositeSubscription);
   }
 
-  final PermissionsService _permissionsService;
   final GoRouter _router;
 
   @override
@@ -96,17 +92,14 @@ class RouterBloc extends $RouterBloc {
       ]).setErrorStateHandler(this).whereSuccess().publish();
 
   Future<void> _go(_GoEventArgs routeData) async {
-    await _permissionsService.checkPermission(routeData.route.permissionName);
     return _router.go(routeData.route.routeLocation, extra: routeData.extra);
   }
 
   Future<void> _push(_PushEventArgs routeData) async {
-    await _permissionsService.checkPermission(routeData.route.permissionName);
     await _router.push(routeData.route.routeLocation, extra: routeData.extra);
   }
 
   Future<void> _pushReplace(_PushReplaceEventArgs routeData) async {
-    await _permissionsService.checkPermission(routeData.route.permissionName);
     await _router.pushReplacement(routeData.route.routeLocation,
         extra: routeData.extra);
   }
