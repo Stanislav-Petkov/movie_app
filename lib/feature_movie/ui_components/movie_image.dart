@@ -11,11 +11,8 @@ class MovieImage extends StatelessWidget {
   final MovieModel movie;
 
   @override
-  Widget build(BuildContext context) {
-    return Hero(
-      tag: 'MovieImage${movie.id}',
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
+  Widget build(BuildContext context) => Hero(
+        tag: 'MovieImage${movie.id}',
         child: SizedBox(
           height: 300,
           width: 200,
@@ -32,7 +29,5 @@ class MovieImage extends StatelessWidget {
             },
           ),
         ),
-      ),
-    );
-  }
+      );
 }

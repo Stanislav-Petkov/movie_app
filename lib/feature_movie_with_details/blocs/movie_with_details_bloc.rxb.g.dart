@@ -22,8 +22,8 @@ abstract class $MovieWithDetailsBloc extends RxBlocBase
         MovieWithDetailsBlocType {
   final _compositeSubscription = CompositeSubscription();
 
-  /// Тhe [Subject] where events sink to by calling [fetchData]
-  final _$fetchDataEvent = PublishSubject<int>();
+  /// Тhe [Subject] where events sink to by calling [fetchMovieDetails]
+  final _$fetchMovieDetailsEvent = PublishSubject<int>();
 
   /// The state of [isLoading] implemented in [_mapToIsLoadingState]
   late final Stream<bool> _isLoadingState = _mapToIsLoadingState();
@@ -31,12 +31,12 @@ abstract class $MovieWithDetailsBloc extends RxBlocBase
   /// The state of [errors] implemented in [_mapToErrorsState]
   late final Stream<String> _errorsState = _mapToErrorsState();
 
-  /// The state of [data] implemented in [_mapToDataState]
-  late final ConnectableStream<Result<MovieWithDetailsModel>> _dataState =
-      _mapToDataState();
+  /// The state of [movieDetails] implemented in [_mapToMovieDetailsState]
+  late final ConnectableStream<Result<MovieWithDetailsModel>>
+      _movieDetailsState = _mapToMovieDetailsState();
 
   @override
-  void fetchData(int id) => _$fetchDataEvent.add(id);
+  void fetchMovieDetails(int id) => _$fetchMovieDetailsEvent.add(id);
 
   @override
   Stream<bool> get isLoading => _isLoadingState;
@@ -45,13 +45,14 @@ abstract class $MovieWithDetailsBloc extends RxBlocBase
   Stream<String> get errors => _errorsState;
 
   @override
-  ConnectableStream<Result<MovieWithDetailsModel>> get data => _dataState;
+  ConnectableStream<Result<MovieWithDetailsModel>> get movieDetails =>
+      _movieDetailsState;
 
   Stream<bool> _mapToIsLoadingState();
 
   Stream<String> _mapToErrorsState();
 
-  ConnectableStream<Result<MovieWithDetailsModel>> _mapToDataState();
+  ConnectableStream<Result<MovieWithDetailsModel>> _mapToMovieDetailsState();
 
   @override
   MovieWithDetailsBlocEvents get events => this;
@@ -61,7 +62,7 @@ abstract class $MovieWithDetailsBloc extends RxBlocBase
 
   @override
   void dispose() {
-    _$fetchDataEvent.close();
+    _$fetchMovieDetailsEvent.close();
     _compositeSubscription.dispose();
     super.dispose();
   }

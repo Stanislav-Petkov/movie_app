@@ -24,7 +24,10 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<MovieWithDetailsBlocType>().events.fetchData(widget.movie.id);
+    context
+        .read<MovieWithDetailsBlocType>()
+        .events
+        .fetchMovieDetails(widget.movie.id);
   }
 
   @override
@@ -56,7 +59,7 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
                       Center(
                         child: RxResultBuilder<MovieWithDetailsBlocType,
                             MovieWithDetailsModel>(
-                          state: (bloc) => bloc.states.data,
+                          state: (bloc) => bloc.states.movieDetails,
                           buildLoading: (ctx, bloc) =>
                               const CircularProgressIndicator(),
                           buildError: (ctx, error, bloc) =>
@@ -85,7 +88,7 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
   Widget _buildTextContent(BuildContext context, MovieWithDetailsModel movie) =>
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        color: Colors.white,
+        color: context.designSystem.colors.backgroundColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -122,12 +125,12 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
         maxLines: 2,
       );
 
-  Widget _buildDescription(BuildContext context, MovieWithDetailsModel movie) {
-    return Text(
+  Widget _buildDescription(BuildContext context, MovieWithDetailsModel movie) =>
+     Text(
       context.l10n.featureMovieWithDetails.overview(movie.overview),
       style: context.designSystem.typography.movieOverviewStyle,
     );
-  }
+
 
   void _onError(BuildContext context, String errorMessage) =>
       ScaffoldMessenger.of(context).showSnackBar(

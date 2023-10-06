@@ -8,7 +8,6 @@ class MovieModel {
     required this.id,
     required this.title,
     required this.posterPath,
-
   });
 
   final int id;

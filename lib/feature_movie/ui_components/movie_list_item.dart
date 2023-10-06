@@ -29,21 +29,22 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(
-                movie.title,
-                style: context.designSystem.typography.movieListTitleStyle,
+        child: Container(
+          color: Colors.grey,
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(
+                  movie.title,
+                  style: context.designSystem.typography.movieListTitleStyle,
+                ),
               ),
-            ),
-            buildImage(movie),
-            const SizedBox(height: 10),
-          ],
+              buildImage(movie),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       );
-}
 
-Widget buildImage(MovieModel movie) {
-  return MovieImage(movie: movie);
+  Widget buildImage(MovieModel movie) => MovieImage(movie: movie);
 }

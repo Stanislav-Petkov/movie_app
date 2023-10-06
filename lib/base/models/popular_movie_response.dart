@@ -2,8 +2,9 @@ import 'package:json_annotation/json_annotation.dart';
 import 'movie_model.dart';
 
 part 'popular_movie_response.g.dart';
+
 @JsonSerializable()
-class PopularMovieResponse{
+class PopularMovieResponse {
   PopularMovieResponse({
     required this.totalResults,
     required this.results,
@@ -17,5 +18,4 @@ class PopularMovieResponse{
       _$PopularMovieResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$PopularMovieResponseToJson(this);
-
 }

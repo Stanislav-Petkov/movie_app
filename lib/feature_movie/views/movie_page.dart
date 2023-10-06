@@ -24,23 +24,24 @@ class MoviePage extends StatefulWidget {
 
 class _MoviePageState extends State<MoviePage> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title:  Text(context.l10n.featureMovie.homeScreen),
-      ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RxBlocListener<MovieBlocType, String>(
-            state: (bloc) => bloc.states.errors,
-            listener: (context, error) => _onError,
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text(context.l10n.featureMovie.homeScreen),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              RxBlocListener<MovieBlocType, String>(
+                state: (bloc) => bloc.states.errors,
+                listener: (context, error) => _onError,
+              ),
+              Expanded(child: _buildDataContainer())
+            ],
           ),
-          Expanded(child: _buildDataContainer())
-        ],
-      ),
-    );
-  }
+        ),
+      );
 
   Widget _buildDataContainer() =>
       RxPaginatedBuilder<MovieBlocType, MovieModel>.withRefreshIndicator(
@@ -53,18 +54,14 @@ class _MoviePageState extends State<MoviePage> {
         buildSuccess: (context, list, bloc) => ListView.builder(
           padding: const EdgeInsets.only(bottom: 10, top: 10),
           scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            return _buildSuccess(context, list, index);
-          },
+          itemBuilder: (context, index) => _buildSuccess(context, list, index),
           itemCount: list.itemCount,
         ),
         buildLoading: (context, list, bloc) => const AppLoadingIndicator(),
-        buildError: (context, list, bloc) {
-          return AppErrorWidget(
-            error: list.error!,
-            onTabRetry: () {},
-          );
-        },
+        buildError: (context, list, bloc) => AppErrorWidget(
+          error: list.error!,
+          onTabRetry: () => bloc.events.loadPage(reset: true),
+        ),
       );
 
   Widget _buildSuccess(

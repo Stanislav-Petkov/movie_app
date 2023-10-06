@@ -9,7 +9,7 @@ part 'movie_with_details_bloc.rxb.g.dart';
 /// A contract class containing all events of the MovieWithDetailsBloC.
 abstract class MovieWithDetailsBlocEvents {
   /// Fetch movie details by id
-  void fetchData(int id);
+  void fetchMovieDetails(int id);
 }
 
 /// A contract class containing all states of the MovieWithDetailsBloC.
@@ -21,31 +21,27 @@ abstract class MovieWithDetailsBlocStates {
   Stream<String> get errors;
 
   /// Return the details for the movie
-  ConnectableStream<Result<MovieWithDetailsModel>> get data;
+  ConnectableStream<Result<MovieWithDetailsModel>> get movieDetails;
 }
 
 @RxBloc()
 class MovieWithDetailsBloc extends $MovieWithDetailsBloc {
   MovieWithDetailsBloc({required this.repository}) {
-    data.connect();
+    movieDetails.connect();
   }
 
   final MovieRepository repository;
 
   @override
-  ConnectableStream<Result<MovieWithDetailsModel>> _mapToDataState() =>
-      _$fetchDataEvent
+  ConnectableStream<Result<MovieWithDetailsModel>> _mapToMovieDetailsState() =>
+      _$fetchMovieDetailsEvent
           .throttleTime(const Duration(milliseconds: 200))
-          .switchMap((id)  {
-            print('bloc_value id; $id');
-            var movieDetails =  repository.getMovieDetails(id: id);
-            return movieDetails.asResultStream();
-          })
+          .switchMap(
+              (id) => repository.getMovieDetails(id: id).asResultStream())
           .setResultStateHandler(this)
           .shareReplay(maxSize: 1)
           .publish();
 
-  /// TODO: Implement error event-to-state logic
   @override
   Stream<String> _mapToErrorsState() =>
       errorState.map((error) => error.toString());
