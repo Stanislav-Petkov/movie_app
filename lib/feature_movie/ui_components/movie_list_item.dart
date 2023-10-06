@@ -30,7 +30,7 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Card(
         child: Container(
-          color: Colors.grey,
+          color: context.designSystem.colors.movieBackgroundColor,
           child: Column(
             children: [
               ListTile(

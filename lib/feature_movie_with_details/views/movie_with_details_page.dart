@@ -32,48 +32,51 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              floating: true,
-              leading: const BackButton(),
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              flexibleSpace: FlexibleSpaceBar(
-                background: MovieImage(
-                  movie: widget.movie,
-                ),
-              ),
-              expandedHeight: 400,
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      RxBlocListener<MovieWithDetailsBlocType, String>(
-                        state: (bloc) => bloc.states.errors,
-                        listener: (context, error) => _onError,
-                      ),
-                      Center(
-                        child: RxResultBuilder<MovieWithDetailsBlocType,
-                            MovieWithDetailsModel>(
-                          state: (bloc) => bloc.states.movieDetails,
-                          buildLoading: (ctx, bloc) =>
-                              const CircularProgressIndicator(),
-                          buildError: (ctx, error, bloc) =>
-                              Text(error.toString()),
-                          buildSuccess: (context, movie, bloc) =>
-                              _buildTextContent(context, movie),
-                        ),
-                      ),
-                    ],
+        body: Container(
+          color: context.designSystem.colors.movieBackgroundColor,
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                floating: true,
+                leading: const BackButton(),
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: MovieImage(
+                    movie: widget.movie,
                   ),
-                ],
+                ),
+                expandedHeight: 400,
               ),
-            )
-          ],
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RxBlocListener<MovieWithDetailsBlocType, String>(
+                          state: (bloc) => bloc.states.errors,
+                          listener: (context, error) => _onError,
+                        ),
+                        Center(
+                          child: RxResultBuilder<MovieWithDetailsBlocType,
+                              MovieWithDetailsModel>(
+                            state: (bloc) => bloc.states.movieDetails,
+                            buildLoading: (ctx, bloc) =>
+                                const CircularProgressIndicator(),
+                            buildError: (ctx, error, bloc) =>
+                                Text(error.toString()),
+                            buildSuccess: (context, movie, bloc) =>
+                                _buildTextContent(context, movie),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       );
 
@@ -88,7 +91,7 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
   Widget _buildTextContent(BuildContext context, MovieWithDetailsModel movie) =>
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        color: context.designSystem.colors.backgroundColor,
+        color: context.designSystem.colors.movieBackgroundColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -126,11 +129,10 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
       );
 
   Widget _buildDescription(BuildContext context, MovieWithDetailsModel movie) =>
-     Text(
-      context.l10n.featureMovieWithDetails.overview(movie.overview),
-      style: context.designSystem.typography.movieOverviewStyle,
-    );
-
+      Text(
+        context.l10n.featureMovieWithDetails.overview(movie.overview),
+        style: context.designSystem.typography.movieOverviewStyle,
+      );
 
   void _onError(BuildContext context, String errorMessage) =>
       ScaffoldMessenger.of(context).showSnackBar(

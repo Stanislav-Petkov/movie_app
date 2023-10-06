@@ -68,5 +68,5 @@ class DesignSystemColors {
   final gray = const Color(0xff808080);
   bool get lightMode => brightness == Brightness.light;
   ///
-  Color get backGround => lightMode ? Colors.blue : Colors.blue ;
+  Color get movieBackgroundColor => lightMode ? Colors.grey : Colors.grey ;
 }
