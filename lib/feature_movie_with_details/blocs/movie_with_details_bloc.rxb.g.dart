@@ -23,7 +23,7 @@ abstract class $MovieWithDetailsBloc extends RxBlocBase
   final _compositeSubscription = CompositeSubscription();
 
   /// Тhe [Subject] where events sink to by calling [fetchData]
-  final _$fetchDataEvent = PublishSubject<void>();
+  final _$fetchDataEvent = PublishSubject<int>();
 
   /// The state of [isLoading] implemented in [_mapToIsLoadingState]
   late final Stream<bool> _isLoadingState = _mapToIsLoadingState();
@@ -32,10 +32,11 @@ abstract class $MovieWithDetailsBloc extends RxBlocBase
   late final Stream<String> _errorsState = _mapToErrorsState();
 
   /// The state of [data] implemented in [_mapToDataState]
-  late final Stream<Result<String>> _dataState = _mapToDataState();
+  late final ConnectableStream<Result<MovieWithDetailsModel>> _dataState =
+      _mapToDataState();
 
   @override
-  void fetchData() => _$fetchDataEvent.add(null);
+  void fetchData(int id) => _$fetchDataEvent.add(id);
 
   @override
   Stream<bool> get isLoading => _isLoadingState;
@@ -44,13 +45,13 @@ abstract class $MovieWithDetailsBloc extends RxBlocBase
   Stream<String> get errors => _errorsState;
 
   @override
-  Stream<Result<String>> get data => _dataState;
+  ConnectableStream<Result<MovieWithDetailsModel>> get data => _dataState;
 
   Stream<bool> _mapToIsLoadingState();
 
   Stream<String> _mapToErrorsState();
 
-  Stream<Result<String>> _mapToDataState();
+  ConnectableStream<Result<MovieWithDetailsModel>> _mapToDataState();
 
   @override
   MovieWithDetailsBlocEvents get events => this;

@@ -1,12 +1,15 @@
 import 'package:rx_bloc/rx_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../base/models/movie_with_details_model.dart';
+import '../../base/repositories/movie_repository.dart';
+
 part 'movie_with_details_bloc.rxb.g.dart';
 
 /// A contract class containing all events of the MovieWithDetailsBloC.
 abstract class MovieWithDetailsBlocEvents {
-  /// TODO: Document the event
-  void fetchData();
+  /// Fetch movie details by id
+  void fetchData(int id);
 }
 
 /// A contract class containing all states of the MovieWithDetailsBloC.
@@ -17,25 +20,30 @@ abstract class MovieWithDetailsBlocStates {
   /// The error state
   Stream<String> get errors;
 
-  /// TODO: Document the state
-  Stream<Result<String>> get data;
+  /// Return the details for the movie
+  ConnectableStream<Result<MovieWithDetailsModel>> get data;
 }
 
 @RxBloc()
 class MovieWithDetailsBloc extends $MovieWithDetailsBloc {
+  MovieWithDetailsBloc({required this.repository}) {
+    data.connect();
+  }
+
+  final MovieRepository repository;
 
   @override
-  Stream<Result<String>> _mapToDataState() => _$fetchDataEvent
-      .startWith(null)
-      .throttleTime(const Duration(milliseconds: 200))
-      .switchMap((value) async* {
-        ///TODO: Replace the code below with a repository invocation
-        yield Result<String>.loading();
-        await Future.delayed(const Duration(seconds: 1));
-        yield Result<String>.success('Some specific async state');
-      })
-      .setResultStateHandler(this)
-      .shareReplay(maxSize: 1);
+  ConnectableStream<Result<MovieWithDetailsModel>> _mapToDataState() =>
+      _$fetchDataEvent
+          .throttleTime(const Duration(milliseconds: 200))
+          .switchMap((id)  {
+            print('bloc_value id; $id');
+            var movieDetails =  repository.getMovieDetails(id: id);
+            return movieDetails.asResultStream();
+          })
+          .setResultStateHandler(this)
+          .shareReplay(maxSize: 1)
+          .publish();
 
   /// TODO: Implement error event-to-state logic
   @override

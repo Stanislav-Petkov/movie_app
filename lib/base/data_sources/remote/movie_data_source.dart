@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../models/movie_with_details_model.dart';
 import '../../models/popular_movie_response.dart';
 
 part 'movie_data_source.g.dart';
@@ -14,4 +15,11 @@ abstract class MovieDataSource {
     @Query('page') required int page,
     @Query('api_key') required String apiKey,
   });
+
+  @GET('/3/movie/{id}')
+  Future<MovieWithDetailsModel> getMovieDetails({
+    @Path('id') required int id,
+    @Query('api_key') required String apiKey,
+  });
+
 }

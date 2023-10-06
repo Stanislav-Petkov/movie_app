@@ -12,6 +12,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import '../../feature_movie_with_details/blocs/movie_with_details_bloc.dart';
 import '../../lib_router/blocs/router_bloc.dart';
 import '../../lib_router/router.dart';
 import '../app/config/environment_config.dart';
@@ -118,20 +119,25 @@ class _MovieAppWithDependenciesState extends State<MovieAppWithDependencies> {
       ];
 
   List<Provider> get _repositories => [
-    Provider<MovieRepository>(
-      create: (context) => MovieRepository(
-        context.read<MovieDataSource>(),
-      ),
-    ),
+        Provider<MovieRepository>(
+          create: (context) => MovieRepository(
+            context.read<MovieDataSource>(),
+            context.read<ErrorMapper>(),
+          ),
+        ),
       ];
 
-  List<Provider> get _services => [
-      ];
+  List<Provider> get _services => [];
 
   List<SingleChildWidget> get _blocs => [
         Provider<RouterBlocType>(
           create: (context) => RouterBloc(
             router: context.read<AppRouter>().router,
+          ),
+        ),
+        RxBlocProvider<MovieWithDetailsBlocType>(
+          create: (context) => MovieWithDetailsBloc(
+            repository: context.read<MovieRepository>(),
           ),
         ),
       ];

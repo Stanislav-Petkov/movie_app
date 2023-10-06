@@ -11,8 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../base/common_blocs/coordinator_bloc.dart';
+import '../base/models/movie_model.dart';
 import '../feature_movie/di/movie_page_with_dependencies.dart';
-import '../feature_movie_with_details/di/movie_with_details_dependencies.dart';
+import '../feature_movie_with_details/views/movie_with_details_page.dart';
 import 'models/route_data_model.dart';
 import 'models/routes_path.dart';
 import 'views/error_page.dart';

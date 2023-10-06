@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rx_bloc/flutter_rx_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:rx_bloc_list/src/models/paginated_list.dart';
 import 'package:rx_bloc_list/widgets.dart';
 import '../../base/common_ui_components/app_error_widget.dart';
 import '../../base/common_ui_components/app_loading_indicator.dart';
 import '../../base/models/movie_model.dart';
+import '../../lib_router/blocs/router_bloc.dart';
+import '../../lib_router/router.dart';
 import '../blocs/movie_bloc.dart';
 
 import '../ui_components/movie_card_widget.dart';
@@ -53,12 +56,10 @@ class _MoviePageState extends State<MoviePage> {
           return bloc.states.refreshDone;
         },
         buildSuccess: (context, list, bloc) => ListView.builder(
+          padding: const EdgeInsets.only(bottom: 10, top: 10),
+          scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-            final item = list.getItem(index);
-            if (item == null) {
-              return const AppLoadingIndicator();
-            }
-            return MovieCardWidget(movie: item);
+            return _buildSuccess(context, list, index);
           },
           itemCount: list.itemCount,
         ),
@@ -70,6 +71,18 @@ class _MoviePageState extends State<MoviePage> {
           );
         },
       );
+
+  Widget _buildSuccess(
+    BuildContext context,
+    PaginatedList<MovieModel> list,
+    int index,
+  ) {
+    final item = list.getItem(index);
+    if (item == null) {
+      return const AppLoadingIndicator();
+    }
+    return MovieCardWidget(movie: item);
+  }
 
   void _onError(BuildContext context, String errorMessage) =>
       ScaffoldMessenger.of(context).showSnackBar(
