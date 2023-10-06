@@ -1,50 +1,21 @@
 part of '../router.dart';
 
-@TypedGoRoute<SplashRoute>(path: RoutesPath.splash)
-@immutable
-class SplashRoute extends GoRouteData implements RouteDataModel {
-  const SplashRoute();
-
-  @override
-  Page<Function> buildPage(BuildContext context, GoRouterState state) =>
-      MaterialPage(
-        key: state.pageKey,
-        child: SplashPageWithDependencies(
-          redirectToLocation: state.uri.queryParameters['from'],
-        ),
-      );
-
-  @override
-  String get permissionName => RouteModel.splash.permissionName;
-
-  @override
-  String get routeLocation => location;
-}
-
-@TypedStatefulShellRoute<HomeStatefulShellRoute>(
+@TypedStatefulShellRoute<MovieStatefulShellRoute>(
   branches: <TypedStatefulShellBranch<StatefulShellBranchData>>[
-    TypedStatefulShellBranch<DashboardBranchData>(
+    TypedStatefulShellBranch<MovieBranchData>(
       routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<DashboardRoute>(path: RoutesPath.dashboard),
-      ],
-    ),
-    TypedStatefulShellBranch<ProfileBranchData>(
-      routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<ProfileRoute>(
-          path: RoutesPath.profile,
-          routes: [
-            TypedGoRoute<NotificationsRoute>(
-              path: RoutesPath.notifications,
-            ),
-          ],
-        ),
+        TypedGoRoute<MovieRoute>(path: RoutesPath.movie, routes: [
+          TypedGoRoute<MovieWithDetailsRoute>(
+            path: RoutesPath.movieWithDetails,
+          ),
+        ]),
       ],
     ),
   ],
 )
 @immutable
-class HomeStatefulShellRoute extends StatefulShellRouteData {
-  const HomeStatefulShellRoute();
+class MovieStatefulShellRoute extends StatefulShellRouteData {
+  const MovieStatefulShellRoute();
 
   @override
   Page<void> pageBuilder(BuildContext context, GoRouterState state,
@@ -53,38 +24,4 @@ class HomeStatefulShellRoute extends StatefulShellRouteData {
         key: state.pageKey,
         child: navigationShell,
       );
-
-  static Widget $navigatorContainerBuilder(BuildContext context,
-          StatefulNavigationShell navigationShell, List<Widget> children) =>
-      HomePage(
-        currentIndex: navigationShell.currentIndex,
-        branchNavigators: children,
-        onNavigationItemSelected: (index) => navigationShell.goBranch(
-          index,
-          initialLocation: index == navigationShell.currentIndex,
-        ),
-      );
-}
-
-@immutable
-class DashboardBranchData extends StatefulShellBranchData {
-  const DashboardBranchData();
-}
-
-@immutable
-class DashboardRoute extends GoRouteData implements RouteDataModel {
-  const DashboardRoute();
-
-  @override
-  Page<Function> buildPage(BuildContext context, GoRouterState state) =>
-      MaterialPage(
-        key: state.pageKey,
-        child: const DashboardPageWithDependencies(),
-      );
-
-  @override
-  String get permissionName => RouteModel.dashboard.permissionName;
-
-  @override
-  String get routeLocation => location;
 }

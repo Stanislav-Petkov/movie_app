@@ -11,20 +11,20 @@ import 'dart:io';
 /// environment specific properties (such as API endpoints, server secrets, ...)
 enum EnvironmentConfig {
   development(
-      androidEmulatorBaseApiUrl: 'http://10.0.2.2:8080',
-      iosSimulatorBaseApiUrl: 'http://0.0.0.0:8080'),
+      androidEmulatorBaseApiUrl: 'https://api.themoviedb.org/',
+      iosSimulatorBaseApiUrl: 'https://api.themoviedb.org/'),
 
   sit(
-      androidEmulatorBaseApiUrl: 'http://10.0.2.2:8080',
-      iosSimulatorBaseApiUrl: 'http://0.0.0.0:8080'),
+      androidEmulatorBaseApiUrl: 'https://api.themoviedb.org/',
+      iosSimulatorBaseApiUrl: 'https://api.themoviedb.org/'),
 
   uat(
-      androidEmulatorBaseApiUrl: 'http://10.0.2.2:8080',
-      iosSimulatorBaseApiUrl: 'http://0.0.0.0:8080'),
+      androidEmulatorBaseApiUrl: 'https://api.themoviedb.org/',
+      iosSimulatorBaseApiUrl: 'https://api.themoviedb.org/'),
 
   production(
-      androidEmulatorBaseApiUrl: 'http://10.0.2.2:8080',
-      iosSimulatorBaseApiUrl: 'http://0.0.0.0:8080');
+      androidEmulatorBaseApiUrl: 'https://api.themoviedb.org/',
+      iosSimulatorBaseApiUrl: 'https://api.themoviedb.org/');
 
   final String androidEmulatorBaseApiUrl;
   final String iosSimulatorBaseApiUrl;

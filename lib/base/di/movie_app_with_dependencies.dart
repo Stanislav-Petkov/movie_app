@@ -6,30 +6,23 @@
 // https://opensource.org/licenses/MIT.
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rx_bloc/flutter_rx_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import '../../feature_splash/services/splash_service.dart';
-import '../../lib_permissions/data_sources/remote/permissions_remote_data_source.dart';
-import '../../lib_permissions/repositories/permissions_repository.dart';
-import '../../lib_permissions/services/permissions_service.dart';
+import '../../feature_movie_with_details/blocs/movie_with_details_bloc.dart';
 import '../../lib_router/blocs/router_bloc.dart';
 import '../../lib_router/router.dart';
 import '../app/config/environment_config.dart';
 import '../common_blocs/coordinator_bloc.dart';
-import '../common_blocs/push_notifications_bloc.dart';
 import '../common_mappers/error_mappers/error_mapper.dart';
-import '../common_services/push_notifications_service.dart';
-import '../data_sources/local/profile_local_data_source.dart';
 import '../data_sources/local/shared_preferences_instance.dart';
 import '../data_sources/remote/http_clients/api_http_client.dart';
 import '../data_sources/remote/http_clients/plain_http_client.dart';
-import '../data_sources/remote/push_notification_data_source.dart';
-import '../repositories/push_notification_repository.dart';
+import '../data_sources/remote/movie_data_source.dart';
+import '../repositories/movie_repository.dart';
 
 class MovieAppWithDependencies extends StatefulWidget {
   const MovieAppWithDependencies({
@@ -118,67 +111,33 @@ class _MovieAppWithDependenciesState extends State<MovieAppWithDependencies> {
       ];
 
   List<Provider> get _dataSources => [
-        Provider<PushNotificationsDataSource>(
-          create: (context) => PushNotificationsDataSource(
+        Provider<MovieDataSource>(
+          create: (context) => MovieDataSource(
             context.read<ApiHttpClient>(),
           ),
-        ),
-        Provider<PermissionsRemoteDataSource>(
-          create: (context) => PermissionsRemoteDataSource(
-            context.read<ApiHttpClient>(),
-          ),
-        ),
-        Provider<ProfileLocalDataSource>(
-          create: (context) =>
-              ProfileLocalDataSource(context.read<SharedPreferencesInstance>()),
         ),
       ];
 
   List<Provider> get _repositories => [
-        Provider<PushNotificationRepository>(
-          create: (context) => PushNotificationRepository(
-            context.read(),
-            context.read(),
-            context.read(),
-            context.read(),
-          ),
-        ),
-        Provider<PermissionsRepository>(
-          create: (context) => PermissionsRepository(
-            context.read(),
-            context.read(),
+        Provider<MovieRepository>(
+          create: (context) => MovieRepository(
+            context.read<MovieDataSource>(),
+            context.read<ErrorMapper>(),
           ),
         ),
       ];
 
-  List<Provider> get _services => [
-        Provider<PermissionsService>(
-          create: (context) => PermissionsService(
-            context.read(),
-          ),
-        ),
-        Provider<SplashService>(
-          create: (context) => SplashService(
-            context.read(),
-          ),
-        ),
-        Provider<PushNotificationsService>(
-          create: (context) => PushNotificationsService(
-            context.read(),
-          ),
-        ),
-      ];
+  List<Provider> get _services => [];
 
   List<SingleChildWidget> get _blocs => [
         Provider<RouterBlocType>(
           create: (context) => RouterBloc(
             router: context.read<AppRouter>().router,
-            permissionsService: context.read(),
           ),
         ),
-        RxBlocProvider<PushNotificationsBlocType>(
-          create: (context) => PushNotificationsBloc(
-            context.read(),
+        RxBlocProvider<MovieWithDetailsBlocType>(
+          create: (context) => MovieWithDetailsBloc(
+            repository: context.read<MovieRepository>(),
           ),
         ),
       ];

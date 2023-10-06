@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "rating": "Rating: {ratingValue}",
+  "releaseDate": "Release Date: {releaseDateValue}",
+  "title": "Title: {titleValue}",
+  "overview": "Overview: {overviewValue}"
+}

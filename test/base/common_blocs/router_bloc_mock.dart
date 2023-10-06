@@ -1,8 +1,8 @@
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:movie_app/base/models/errors/error_model.dart';
 import 'package:movie_app/lib_router/blocs/router_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'router_bloc_mock.mocks.dart';
 

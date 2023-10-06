@@ -1,3 +1,9 @@
+This is  a Flutter mobile application that fetches popular movies from 
+The Movie Database API and displays them in a list view. Upon clicking a 
+movie, the app should fetch additional details about the movie and display 
+them in a new screen called "Movie Details. The solution in the branch uses
+the [Rx BLoC][rx_bloc_lnk] library to manage the state of the application.
+
 # Table of contents
 
 1. [Getting Started](#getting-started)
