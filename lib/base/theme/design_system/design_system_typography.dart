@@ -85,4 +85,33 @@ class DesignSystemTypography {
 
   late final fadedButtonText =
       h3Med14.copyWith(color: _designSystemColor.black);
+
+  /// Feature movie
+  final movieListTitleStyle = const TextStyle(
+    fontWeight: FontWeight.w600,
+    fontSize: 22,
+  );
+
+  /// endregion
+
+  /// Feature movie with details
+  final movieTitleStyle = const TextStyle(
+    fontWeight: FontWeight.w600,
+    fontSize: 22,
+  );
+
+  final movieReleaseDateStyle = const TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 18,
+  );
+
+  final movieRatingStyle = const TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 18,
+  );
+  final movieOverviewStyle = const TextStyle(
+    fontSize: 14,
+  );
+
+  /// endregion
 }

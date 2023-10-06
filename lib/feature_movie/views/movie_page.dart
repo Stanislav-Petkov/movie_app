@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rx_bloc/flutter_rx_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:rx_bloc_list/src/models/paginated_list.dart';
+import 'package:rx_bloc_list/models.dart';
 import 'package:rx_bloc_list/widgets.dart';
+import '../../app_extensions.dart';
 import '../../base/common_ui_components/app_error_widget.dart';
 import '../../base/common_ui_components/app_loading_indicator.dart';
 import '../../base/models/movie_model.dart';
@@ -10,7 +11,7 @@ import '../../lib_router/blocs/router_bloc.dart';
 import '../../lib_router/router.dart';
 import '../blocs/movie_bloc.dart';
 
-import '../ui_components/movie_card_widget.dart';
+import '../ui_components/movie_list_item.dart';
 
 class MoviePage extends StatefulWidget {
   const MoviePage({
@@ -26,13 +27,7 @@ class _MoviePageState extends State<MoviePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () =>
-                context.read<MovieBlocType>().events.loadPage(reset: true),
-          ),
-        ],
+        title:  Text(context.l10n.featureMovie.homeScreen),
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +76,15 @@ class _MoviePageState extends State<MoviePage> {
     if (item == null) {
       return const AppLoadingIndicator();
     }
-    return MovieCardWidget(movie: item);
+    return MovieListItem(
+      movie: item,
+      onCardPressed: (movie) {
+        context
+            .read<RouterBlocType>()
+            .events
+            .push(const MovieWithDetailsRoute(), extra: movie);
+      },
+    );
   }
 
   void _onError(BuildContext context, String errorMessage) =>

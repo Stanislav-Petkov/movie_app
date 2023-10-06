@@ -82,3 +82,5 @@ r_flutter:
     - name: feature_profile
     - name: field 
     - name: lib_router
+    - name: feature_movie
+    - name: feature_movie_with_details

@@ -1,0 +1,7 @@
+{
+  "@@locale": "bg",
+  "rating": "Рейтинг: {ratingValue}",
+  "releaseDate": "Дата: {releaseDateValue}",
+  "title": "Заглавие: {titleValue}",
+  "overview": "Общ преглед: {overviewValue}"
+}

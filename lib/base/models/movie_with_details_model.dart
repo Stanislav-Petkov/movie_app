@@ -17,7 +17,7 @@ class MovieWithDetailsModel {
   final String title;
   final String overview;
   @JsonKey(name: 'release_date')
-  final String releaseDate;
+  final DateTime releaseDate;
   @JsonKey(name: 'vote_average')
   final double voteAverage;
 
