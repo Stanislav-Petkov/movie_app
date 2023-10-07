@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rx_bloc/flutter_rx_bloc.dart';
 import '../../app_extensions.dart';
 import '../../base/common_ui_components/app_loading_indicator.dart';
 import '../../lib_router/blocs/router_bloc.dart';
 import '../../lib_router/router.dart';
-import '../blocs/movie_bloc.dart';
 
 import '../blocs/my_movie_bloc.dart';
 import '../ui_components/movie_list_item.dart';
@@ -48,20 +46,13 @@ class _MoviePageState extends State<MoviePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              RxBlocListener<MovieBlocType, String>(
-                state: (bloc) => bloc.states.errors,
-                listener: (context, error) => _onError,
-              ),
-              // Expanded(child: _buildDataContainerPaginated())
-              Expanded(child: _buildBlocList())
-            ],
+            children: <Widget>[Expanded(child: _buildBlocList())],
           ),
         ),
       );
 
   Widget _buildBlocList() {
-    return BlocBuilder<MyMovieBloc, MyMovieState>(
+    return BlocBuilder<MyMovieBloc, MyMovieStateFetch>(
       builder: (context, state) {
         switch (state.status) {
           case MyMovieStatus.failure:
@@ -97,46 +88,6 @@ class _MoviePageState extends State<MoviePage> {
     );
   }
 
-  // Widget _buildDataContainerPaginated() =>
-  //     RxPaginatedBuilder<MovieBlocType, UiMovieModel>.withRefreshIndicator(
-  //       state: (bloc) => bloc.states.uiMovieModelList,
-  //       onBottomScrolled: (bloc) => bloc.events.loadPage(),
-  //       onRefresh: (bloc) async {
-  //         bloc.events.loadPage(reset: true);
-  //         return bloc.states.refreshDone;
-  //       },
-  //       buildSuccess: (context, list, bloc) => ListView.builder(
-  //         padding: const EdgeInsets.only(bottom: 10, top: 10),
-  //         scrollDirection: Axis.vertical,
-  //         itemBuilder: (context, index) => _buildSuccess(context, list, index),
-  //         itemCount: list.itemCount,
-  //       ),
-  //       buildLoading: (context, list, bloc) => const AppLoadingIndicator(),
-  //       buildError: (context, list, bloc) => AppErrorWidget(
-  //         error: list.error!,
-  //         onTabRetry: () => bloc.events.loadPage(reset: true),
-  //       ),
-  //     );
-
-  // Widget _buildSuccess(
-  //   BuildContext context,
-  //   PaginatedList<UiMovieModel> list,
-  //   int index,
-  // ) {
-  //   final item = list.getItem(index);
-  //   if (item == null) {
-  //     return const AppLoadingIndicator();
-  //   }
-  //   return MovieListItem(
-  //     movie: item,
-  //     onCardPressed: (movie) {
-  //       context
-  //           .read<RouterBlocType>()
-  //           .events
-  //           .push(const MovieWithDetailsRoute(), extra: movie);
-  //     },
-  //   );
-  // }
 
   void _onError(BuildContext context, String errorMessage) =>
       ScaffoldMessenger.of(context).showSnackBar(

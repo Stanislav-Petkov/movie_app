@@ -7,12 +7,13 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rx_bloc/flutter_rx_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import '../../feature_movie_with_details/blocs/movie_with_details_bloc.dart';
+import '../../feature_movie_with_details/blocs/my_movie_with_details_cubit.dart';
 import '../../lib_router/blocs/router_bloc.dart';
 import '../../lib_router/router.dart';
 import '../app/config/environment_config.dart';
@@ -135,9 +136,10 @@ class _MovieAppWithDependenciesState extends State<MovieAppWithDependencies> {
             router: context.read<AppRouter>().router,
           ),
         ),
-        RxBlocProvider<MovieWithDetailsBlocType>(
-          create: (context) => MovieWithDetailsBloc(
-            repository: context.read<MovieRepository>(),
+
+        BlocProvider(
+          create: (context) => MyMovieWithDetailsCubit(
+            repository: context.read(),
           ),
         ),
       ];
