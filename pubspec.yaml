@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   bloc: ^8.1.2
+  bloc_concurrency: ^0.2.2
   cached_network_image: ^3.3.0
   collection: ^1.17.1
   cupertino_icons: ^1.0.5
@@ -40,6 +41,7 @@ dependencies:
   shelf_router: ^1.1.4 # This package is used for the local server (if not used, can be removed)
   shelf_static: ^1.1.2 # This package is used for the local server (if not used, can be removed)
   shimmer: ^3.0.0
+  stream_transform: ^2.1.0
   widget_toolkit: ^0.0.2-dev.1
 
 dev_dependencies:
