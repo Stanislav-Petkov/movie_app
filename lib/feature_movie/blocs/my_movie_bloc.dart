@@ -38,29 +38,10 @@ class MyMovieBloc extends Bloc<MyMovieEvent, MyMovieStateFetch> {
     Emitter<MyMovieStateFetch> emit,
   ) async {
     try {
-      if (state.status == MyMovieStatus.initial) {
-        final movies = await movieRepository.getPopularMovies(page: state.page);
-        return emit(
-          state.copyWith(
-            status: MyMovieStatus.success,
-            movies: movies,
-            page: state.page,
-            hasReachedMax: false,
-          ),
-        );
+      if (state.status == MyMovieStatus.initial || event.reset) {
+        return await _emitInitial(emit);
       }
-      final movies =
-          await movieRepository.getPopularMovies(page: state.page + 1);
-      movies.isEmpty
-          ? emit(state.copyWith(hasReachedMax: true))
-          : emit(
-              state.copyWith(
-                status: MyMovieStatus.success,
-                movies: List.of(state.movies)..addAll(movies),
-                hasReachedMax: false,
-                page: state.page + 1,
-              ),
-            );
+      await _emitSuccess(emit);
     } catch (e) {
       return emit(
         state.copyWith(
@@ -69,5 +50,31 @@ class MyMovieBloc extends Bloc<MyMovieEvent, MyMovieStateFetch> {
         ),
       );
     }
+  }
+
+  Future<void> _emitSuccess(Emitter<MyMovieStateFetch> emit) async {
+    final movies = await movieRepository.getPopularMovies(page: state.page + 1);
+    movies.isEmpty
+        ? emit(state.copyWith(hasReachedMax: true))
+        : emit(
+            state.copyWith(
+              status: MyMovieStatus.success,
+              movies: List.of(state.movies)..addAll(movies),
+              hasReachedMax: false,
+              page: state.page + 1,
+            ),
+          );
+  }
+
+  Future<void> _emitInitial(Emitter<MyMovieStateFetch> emit) async {
+    final movies = await movieRepository.getPopularMovies(page: 1);
+    emit(
+      state.copyWith(
+        status: MyMovieStatus.success,
+        movies: movies,
+        page: 1,
+        hasReachedMax: false,
+      ),
+    );
   }
 }

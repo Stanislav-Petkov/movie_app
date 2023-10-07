@@ -68,28 +68,33 @@ class _MoviePageState extends State<MoviePage> {
               return Center(
                   child: Text(context.l10n.featureMovie.noMoviesAvailable));
             }
-            return ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                if (index >= state.movies.length) {
-                  return const AppLoadingIndicator();
-                }
-                return MovieListItem(
-                  movie: state.movies[index],
-                  onCardPressed: (movie) {
-                    context
-                        .read<RouterBlocType>()
-                        .events
-                        .push(const MovieWithDetailsRoute(), extra: movie);
-                  },
-                );
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<MyMovieBloc>().add(MyMovieFetchEvent(true));
               },
-              itemCount: state.hasReachedMax
-                  ? state.movies.length
-                  : state.movies.length + 1,
-              controller: _scrollController,
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  if (index >= state.movies.length) {
+                    return const AppLoadingIndicator();
+                  }
+                  return MovieListItem(
+                    movie: state.movies[index],
+                    onCardPressed: (movie) {
+                      context
+                          .read<RouterBlocType>()
+                          .events
+                          .push(const MovieWithDetailsRoute(), extra: movie);
+                    },
+                  );
+                },
+                itemCount: state.hasReachedMax
+                    ? state.movies.length
+                    : state.movies.length + 1,
+                controller: _scrollController,
+              ),
             );
           case MyMovieStatus.initial:
-            return const Center(child: CircularProgressIndicator());
+            return const AppLoadingIndicator();
         }
       },
     );

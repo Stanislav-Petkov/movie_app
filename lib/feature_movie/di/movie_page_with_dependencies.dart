@@ -12,7 +12,6 @@ class MoviePageWithDependencies extends StatelessWidget {
   }) : super(key: key);
 
   List<SingleChildWidget> get _blocs => [
-
         BlocProvider(
           create: (context) => MyMovieBloc(
             movieRepository: context.read(),
