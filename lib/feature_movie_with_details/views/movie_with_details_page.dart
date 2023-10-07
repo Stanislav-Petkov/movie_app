@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../app_extensions.dart';
+import '../../base/common_ui_components/app_error_widget.dart';
+import '../../base/models/errors/error_model.dart';
 import '../../base/models/ui_model/ui_movie_model.dart';
 import '../../base/models/ui_model/ui_movie_with_details_model.dart';
 import '../../feature_movie/ui_components/movie_image.dart';
@@ -56,12 +58,15 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
                             builder: (context, state) {
                               switch (state.status) {
                                 case MovieWithDetailsStatus.failure:
-                                  return const Center(
-                                    child: Text('failed to fetch details'),
-                                  );
+                                  return AppErrorWidget(
+                                      error: (state.exception as ErrorModel),
+                                      onTabRetry: () => context
+                                          .read<MyMovieWithDetailsCubit>()
+                                          .fetchDetails(id: widget.movie.id));
                                 case MovieWithDetailsStatus.success:
                                   return state.details == null
-                                      ? const Text('No Details')
+                                      ? Text(context.l10n
+                                          .featureMovieWithDetails.noDetails)
                                       : _buildTextContent(
                                           context, state.details!);
                                 case MovieWithDetailsStatus.loading:
@@ -137,13 +142,5 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
       Text(
         context.l10n.featureMovieWithDetails.overview(movie.overview),
         style: context.designSystem.typography.movieOverviewStyle,
-      );
-
-  void _onError(BuildContext context, String errorMessage) =>
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-          behavior: SnackBarBehavior.floating,
-        ),
       );
 }

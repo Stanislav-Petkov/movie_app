@@ -1,4 +1,5 @@
 {
   "@@locale": "en",
-  "homeScreen": "Home Screen"
+  "homeScreen": "Home Screen",
+  "noMoviesAvailable": "No movies available"
 }

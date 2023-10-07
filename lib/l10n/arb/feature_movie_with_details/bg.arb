@@ -3,5 +3,6 @@
   "rating": "Рейтинг: {ratingValue}",
   "releaseDate": "Дата: {releaseDateValue}",
   "title": "Заглавие: {titleValue}",
-  "overview": "Общ преглед: {overviewValue}"
+  "overview": "Общ преглед: {overviewValue}",
+  "noDetails": "Няма налични данни за този филм."
 }

@@ -1,4 +1,5 @@
 {
   "@@locale": "bg",
-  "homeScreen": "Начален екран"
+  "homeScreen": "Начален екран",
+  "noMoviesAvailable": "Няма налични филми"
 }

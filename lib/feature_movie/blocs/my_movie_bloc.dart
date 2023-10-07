@@ -65,6 +65,7 @@ class MyMovieBloc extends Bloc<MyMovieEvent, MyMovieStateFetch> {
       return emit(
         state.copyWith(
           status: MyMovieStatus.failure,
+          exception: e as Exception,
         ),
       );
     }

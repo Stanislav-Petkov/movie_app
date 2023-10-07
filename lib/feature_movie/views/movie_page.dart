@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app_extensions.dart';
+import '../../base/common_ui_components/app_error_widget.dart';
 import '../../base/common_ui_components/app_loading_indicator.dart';
+import '../../base/models/errors/error_model.dart';
 import '../../lib_router/blocs/router_bloc.dart';
 import '../../lib_router/router.dart';
 
@@ -56,10 +58,15 @@ class _MoviePageState extends State<MoviePage> {
       builder: (context, state) {
         switch (state.status) {
           case MyMovieStatus.failure:
-            return const Center(child: Text('failed to fetch movies'));
+            return AppErrorWidget(
+              error: (state.exception as ErrorModel),
+              onTabRetry: () =>
+                  context.read<MyMovieBloc>().add(MyMovieFetchEvent()),
+            );
           case MyMovieStatus.success:
             if (state.movies.isEmpty) {
-              return const Center(child: Text('no movies'));
+              return Center(
+                  child: Text(context.l10n.featureMovie.noMoviesAvailable));
             }
             return ListView.builder(
               itemBuilder: (BuildContext context, int index) {
@@ -87,13 +94,4 @@ class _MoviePageState extends State<MoviePage> {
       },
     );
   }
-
-
-  void _onError(BuildContext context, String errorMessage) =>
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
 }

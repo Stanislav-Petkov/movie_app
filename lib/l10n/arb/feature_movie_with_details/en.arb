@@ -3,5 +3,6 @@
   "rating": "Rating: {ratingValue}",
   "releaseDate": "Release Date: {releaseDateValue}",
   "title": "Title: {titleValue}",
-  "overview": "Overview: {overviewValue}"
+  "overview": "Overview: {overviewValue}",
+  "noDetails": "No details available"
 }

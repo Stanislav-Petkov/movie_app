@@ -18,8 +18,8 @@ class MyMovieWithDetailsCubit extends Cubit<MyMovieWithDetailsState> {
     try {
       final details = await repository.getMovieDetails(id: id);
       emit(MyMovieWithDetailsState.success(details));
-    } on Exception {
-      emit(const MyMovieWithDetailsState.failure());
+    } catch (exception) {
+      emit(MyMovieWithDetailsState.failure(exception as Exception));
     }
   }
 }
