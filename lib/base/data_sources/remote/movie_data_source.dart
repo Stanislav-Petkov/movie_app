@@ -21,5 +21,4 @@ abstract class MovieDataSource {
     @Path('id') required int id,
     @Query('api_key') required String apiKey,
   });
-
 }

@@ -1,8 +1,8 @@
 This is  a Flutter mobile application that fetches popular movies from 
 The Movie Database API and displays them in a list view. Upon clicking a 
 movie, the app should fetch additional details about the movie and display 
-them in a new screen called "Movie Details. The solution in the branch uses
-the [Rx BLoC][rx_bloc_lnk] library to manage the state of the application.
+them in a new screen called Movie Details. The solution in the branch uses
+the [BLoC][bloc] library to manage the state of the application.
 
 # Table of contents
 
@@ -355,6 +355,7 @@ For more info please visit [widget_toolkit_otp](https://pub.dev/packages/widget_
 * Define application-wide loading state representation. It could be a progress bar, spinner, skeleton animation or a custom widget.
 
 [rx_bloc_lnk]: https://pub.dev/packages/rx_bloc
+[bloc]: https://pub.dev/packages/bloc
 [rx_bloc_info_lnk]: https://pub.dev/packages/rx_bloc#what-is-rx_bloc-
 [extension_methods_lnk]: https://dart.dev/guides/language/extension-methods
 [gorouter_lnk]: https://pub.dev/packages/go_router
