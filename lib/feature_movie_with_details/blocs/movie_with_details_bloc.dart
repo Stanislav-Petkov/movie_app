@@ -1,7 +1,7 @@
 import 'package:rx_bloc/rx_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../base/models/movie_with_details_model.dart';
+import '../../base/models/ui_model/ui_movie_with_details_model.dart';
 import '../../base/repositories/movie_repository.dart';
 
 part 'movie_with_details_bloc.rxb.g.dart';
@@ -21,7 +21,7 @@ abstract class MovieWithDetailsBlocStates {
   Stream<String> get errors;
 
   /// Return the details for the movie
-  ConnectableStream<Result<MovieWithDetailsModel>> get movieDetails;
+  ConnectableStream<Result<UiMovieWithDetailsModel>> get movieDetails;
 }
 
 @RxBloc()
@@ -33,7 +33,7 @@ class MovieWithDetailsBloc extends $MovieWithDetailsBloc {
   final MovieRepository repository;
 
   @override
-  ConnectableStream<Result<MovieWithDetailsModel>> _mapToMovieDetailsState() =>
+  ConnectableStream<Result<UiMovieWithDetailsModel>> _mapToMovieDetailsState() =>
       _$fetchMovieDetailsEvent
           .throttleTime(const Duration(milliseconds: 200))
           .switchMap(

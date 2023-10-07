@@ -28,7 +28,7 @@ class MovieWithDetailsRoute extends GoRouteData implements RouteDataModel {
   Page<Function> buildPage(BuildContext context, GoRouterState state) =>
       MaterialPage(
         key: state.pageKey,
-        child:  MovieWithDetailsPage(movie: state.extra as MovieModel,),
+        child:  MovieWithDetailsPage(movie: state.extra as UiMovieModel,),
       );
 
   @override

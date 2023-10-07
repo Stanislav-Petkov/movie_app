@@ -3,8 +3,8 @@ import 'package:flutter_rx_bloc/flutter_rx_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_extensions.dart';
-import '../../base/models/movie_model.dart';
-import '../../base/models/movie_with_details_model.dart';
+import '../../base/models/ui_model/ui_movie_model.dart';
+import '../../base/models/ui_model/ui_movie_with_details_model.dart';
 import '../../feature_movie/ui_components/movie_image.dart';
 import '../blocs/movie_with_details_bloc.dart';
 
@@ -14,7 +14,7 @@ class MovieWithDetailsPage extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  final MovieModel movie;
+  final UiMovieModel movie;
 
   @override
   State<MovieWithDetailsPage> createState() => _MovieWithDetailsPageState();
@@ -60,7 +60,7 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
                         ),
                         Center(
                           child: RxResultBuilder<MovieWithDetailsBlocType,
-                              MovieWithDetailsModel>(
+                              UiMovieWithDetailsModel>(
                             state: (bloc) => bloc.states.movieDetails,
                             buildLoading: (ctx, bloc) =>
                                 const CircularProgressIndicator(),
@@ -80,7 +80,7 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
         ),
       );
 
-  Widget _buildTitle(BuildContext context, MovieWithDetailsModel movie) => Text(
+  Widget _buildTitle(BuildContext context, UiMovieWithDetailsModel movie) => Text(
         context.l10n.featureMovieWithDetails.title(movie.title),
         textAlign: TextAlign.left,
         style: context.designSystem.typography.movieTitleStyle,
@@ -88,7 +88,7 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
         overflow: TextOverflow.ellipsis,
       );
 
-  Widget _buildTextContent(BuildContext context, MovieWithDetailsModel movie) =>
+  Widget _buildTextContent(BuildContext context, UiMovieWithDetailsModel movie) =>
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         color: context.designSystem.colors.movieBackgroundColor,
@@ -111,7 +111,7 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
         ),
       );
 
-  Widget _buildRating(BuildContext context, MovieWithDetailsModel movie) =>
+  Widget _buildRating(BuildContext context, UiMovieWithDetailsModel movie) =>
       Text(
         context.l10n.featureMovieWithDetails
             .rating(movie.voteAverage.toString()),
@@ -119,16 +119,16 @@ class _MovieWithDetailsPageState extends State<MovieWithDetailsPage> {
         style: context.designSystem.typography.movieRatingStyle,
       );
 
-  Widget _buildReleaseDate(BuildContext context, MovieWithDetailsModel movie) =>
+  Widget _buildReleaseDate(BuildContext context, UiMovieWithDetailsModel movie) =>
       Text(
         context.l10n.featureMovieWithDetails
-            .releaseDate(movie.releaseDate.toString().substring(0, 10)),
+            .releaseDate(movie.releaseDate),
         textAlign: TextAlign.left,
         style: context.designSystem.typography.movieReleaseDateStyle,
         maxLines: 2,
       );
 
-  Widget _buildDescription(BuildContext context, MovieWithDetailsModel movie) =>
+  Widget _buildDescription(BuildContext context, UiMovieWithDetailsModel movie) =>
       Text(
         context.l10n.featureMovieWithDetails.overview(movie.overview),
         style: context.designSystem.typography.movieOverviewStyle,

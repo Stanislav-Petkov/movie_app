@@ -2,7 +2,7 @@ import 'package:rx_bloc/rx_bloc.dart';
 import 'package:rx_bloc_list/rx_bloc_list.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../base/models/movie_model.dart';
+import '../../base/models/ui_model/ui_movie_model.dart';
 import '../../base/repositories/movie_repository.dart';
 
 part 'movie_bloc.rxb.g.dart';
@@ -25,7 +25,7 @@ abstract class MovieBlocStates {
   Stream<String> get errors;
 
   /// The paginated list data
-  Stream<PaginatedList<MovieModel>> get paginated;
+  Stream<PaginatedList<UiMovieModel>> get uiMovieModelList;
 
   /// Returns when the data refreshing has completed
   @RxBlocIgnoreState()
@@ -51,8 +51,8 @@ class MovieBloc extends $MovieBloc {
   }
 
   /// Internal paginated list stream
-  final _paginated = BehaviorSubject<PaginatedList<MovieModel>>.seeded(
-    PaginatedList<MovieModel>(
+  final _paginated = BehaviorSubject<PaginatedList<UiMovieModel>>.seeded(
+    PaginatedList<UiMovieModel>(
       list: [],
       pageSize: 20,
     ),
@@ -62,7 +62,7 @@ class MovieBloc extends $MovieBloc {
   Future<void> get refreshDone async => _paginated.waitToLoad();
 
   @override
-  Stream<PaginatedList<MovieModel>> _mapToPaginatedState() =>
+  Stream<PaginatedList<UiMovieModel>> _mapToUiMovieModelListState() =>
       _paginated;
 
   @override
