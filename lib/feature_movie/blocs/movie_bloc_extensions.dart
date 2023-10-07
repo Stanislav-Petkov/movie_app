@@ -3,9 +3,9 @@ part of 'movie_bloc.dart';
 /// Utility extensions for the Stream<bool> streams used within MovieListBloc
 extension MovieBlocStreamExtensions on Stream<bool> {
   /// Fetches appropriate data from the repository
-  Stream<Result<PaginatedList<MovieModel>>> fetchData(
+  Stream<Result<PaginatedList<UiMovieModel>>> fetchData(
     MovieRepository repository,
-    BehaviorSubject<PaginatedList<MovieModel>> paginatedList,
+    BehaviorSubject<PaginatedList<UiMovieModel>> paginatedList,
   ) =>
       switchMap(
         (reset) {

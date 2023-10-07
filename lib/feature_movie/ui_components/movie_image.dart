@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../app_extensions.dart';
 import '../../base/common_ui_components/app_error_widget.dart';
 import '../../base/models/errors/error_model.dart';
-import '../../base/models/movie_model.dart';
+import '../../base/models/ui_model/ui_movie_model.dart';
 
 class MovieImage extends StatefulWidget {
   const MovieImage({
@@ -13,7 +13,7 @@ class MovieImage extends StatefulWidget {
     super.key,
   });
 
-  final MovieModel movie;
+  final UiMovieModel movie;
 
   @override
   State<MovieImage> createState() => _MovieImageState();
@@ -53,3 +53,8 @@ class _MovieImageState extends State<MovieImage> {
         ),
       );
 }
+
+
+
+
+

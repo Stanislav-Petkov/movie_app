@@ -6,7 +6,7 @@ import 'package:rx_bloc_list/widgets.dart';
 import '../../app_extensions.dart';
 import '../../base/common_ui_components/app_error_widget.dart';
 import '../../base/common_ui_components/app_loading_indicator.dart';
-import '../../base/models/movie_model.dart';
+import '../../base/models/ui_model/ui_movie_model.dart';
 import '../../lib_router/blocs/router_bloc.dart';
 import '../../lib_router/router.dart';
 import '../blocs/movie_bloc.dart';
@@ -44,8 +44,8 @@ class _MoviePageState extends State<MoviePage> {
       );
 
   Widget _buildDataContainer() =>
-      RxPaginatedBuilder<MovieBlocType, MovieModel>.withRefreshIndicator(
-        state: (bloc) => bloc.states.paginated,
+      RxPaginatedBuilder<MovieBlocType, UiMovieModel>.withRefreshIndicator(
+        state: (bloc) => bloc.states.uiMovieModelList,
         onBottomScrolled: (bloc) => bloc.events.loadPage(),
         onRefresh: (bloc) async {
           bloc.events.loadPage(reset: true);
@@ -66,7 +66,7 @@ class _MoviePageState extends State<MoviePage> {
 
   Widget _buildSuccess(
     BuildContext context,
-    PaginatedList<MovieModel> list,
+    PaginatedList<UiMovieModel> list,
     int index,
   ) {
     final item = list.getItem(index);

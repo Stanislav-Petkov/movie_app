@@ -32,7 +32,7 @@ abstract class $MovieWithDetailsBloc extends RxBlocBase
   late final Stream<String> _errorsState = _mapToErrorsState();
 
   /// The state of [movieDetails] implemented in [_mapToMovieDetailsState]
-  late final ConnectableStream<Result<MovieWithDetailsModel>>
+  late final ConnectableStream<Result<UiMovieWithDetailsModel>>
       _movieDetailsState = _mapToMovieDetailsState();
 
   @override
@@ -45,14 +45,14 @@ abstract class $MovieWithDetailsBloc extends RxBlocBase
   Stream<String> get errors => _errorsState;
 
   @override
-  ConnectableStream<Result<MovieWithDetailsModel>> get movieDetails =>
+  ConnectableStream<Result<UiMovieWithDetailsModel>> get movieDetails =>
       _movieDetailsState;
 
   Stream<bool> _mapToIsLoadingState();
 
   Stream<String> _mapToErrorsState();
 
-  ConnectableStream<Result<MovieWithDetailsModel>> _mapToMovieDetailsState();
+  ConnectableStream<Result<UiMovieWithDetailsModel>> _mapToMovieDetailsState();
 
   @override
   MovieWithDetailsBlocEvents get events => this;

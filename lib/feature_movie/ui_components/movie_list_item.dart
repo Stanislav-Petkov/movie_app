@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../base/models/movie_model.dart';
+import '../../base/models/ui_model/ui_movie_model.dart';
 import '../../base/theme/design_system.dart';
 import 'movie_image.dart';
 
@@ -10,8 +10,8 @@ class MovieListItem extends StatelessWidget {
     super.key,
   });
 
-  final MovieModel movie;
-  final Function(MovieModel movie) onCardPressed;
+  final UiMovieModel movie;
+  final Function(UiMovieModel movie) onCardPressed;
 
   @override
   Widget build(BuildContext context) => Material(
@@ -25,7 +25,7 @@ class MovieListItem extends StatelessWidget {
 class MovieCard extends StatelessWidget {
   const MovieCard({required this.movie, super.key});
 
-  final MovieModel movie;
+  final UiMovieModel movie;
 
   @override
   Widget build(BuildContext context) => Card(
@@ -46,5 +46,5 @@ class MovieCard extends StatelessWidget {
         ),
       );
 
-  Widget buildImage(MovieModel movie) => MovieImage(movie: movie);
+  Widget buildImage(UiMovieModel movie) => MovieImage(movie: movie);
 }
